@@ -941,6 +941,207 @@ button {
 }
 
 /* --------------------------------------------------------------------------
+   12b. FOUNDER
+   -------------------------------------------------------------------------- */
+.founder__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: var(--sp-5) var(--sp-6);
+  align-items: start;
+}
+
+.founder__figure {
+  margin: 0;
+  position: sticky;
+  top: calc(var(--header-h) + var(--sp-3));
+}
+
+.founder__frame {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--c-light);
+  box-shadow: var(--shadow-soft);
+}
+
+.founder__img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.founder__caption {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-2xs);
+  color: var(--c-gray);
+}
+
+.founder__role {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--c-industrial-blue);
+}
+
+.founder__intro {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-md);
+  color: var(--c-gray);
+  max-width: 58ch;
+}
+
+.founder__relation {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--c-navy);
+  max-width: 58ch;
+}
+
+/* Experience highlight — the single most visible fact */
+.founder__exp {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+  padding: var(--sp-3);
+  background: var(--c-navy);
+  color: var(--c-white);
+  border-radius: var(--radius-md);
+}
+
+.founder__exp-value {
+  font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+  line-height: 1;
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.02em;
+  color: var(--c-white);
+  flex: none;
+}
+
+.founder__exp-label {
+  font-size: var(--fs-xs);
+  color: var(--c-on-dark-muted);
+  max-width: 34ch;
+}
+
+.founder__block {
+  margin-top: var(--sp-4);
+}
+
+.founder__block-label {
+  font-size: var(--fs-3xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--c-industrial-blue);
+}
+
+.founder__block-text {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-sm);
+  color: var(--c-gray);
+  max-width: 58ch;
+}
+
+/* Structured competency list */
+.competencies {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-1) var(--sp-3);
+  margin-top: var(--sp-2);
+}
+
+.competency {
+  position: relative;
+  padding-left: var(--sp-3);
+  font-size: var(--fs-xs);
+  color: var(--c-navy);
+}
+
+.competency::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 8px;
+  height: 2px;
+  background: var(--c-red);
+}
+
+.founder__actions {
+  margin-top: var(--sp-4);
+}
+
+/* --------------------------------------------------------------------------
+   12c. AY-DRON 3000 TECHNICAL GALLERY  (inside the dark product section)
+   -------------------------------------------------------------------------- */
+.gallery {
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-border-dark);
+}
+
+.gallery__title {
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+  font-weight: var(--fw-semibold);
+  color: var(--c-white);
+}
+
+.gallery__lead {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-sm);
+  color: var(--c-on-dark-muted);
+  max-width: var(--w-text);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+  align-items: start;
+}
+
+.gallery-item {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Spans chosen so the 4:3 prototype and the 2:3 infographic share a row
+   height without cropping either image. */
+.gallery-item--two { grid-column: span 2; }
+.gallery-item--one { grid-column: span 1; }
+.gallery-item--wide { grid-column: 1 / -1; }
+
+.gallery__frame {
+  border: 1px solid var(--c-border-dark);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Images keep their natural aspect ratio — no crop, no distortion. */
+.gallery__img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.gallery__caption {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-2xs);
+  color: var(--c-on-dark-muted);
+  max-width: 52ch;
+}
+
+.gallery .note {
+  margin-top: var(--sp-3);
+}
+
+/* --------------------------------------------------------------------------
    12. COMPANY VISION
    -------------------------------------------------------------------------- */
 .section--vision {
@@ -1285,7 +1486,25 @@ button {
   .intro__grid,
   .product__grid,
   .vision__grid,
+  .founder__grid,
   .contact__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .founder__figure {
+    position: static;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gallery-item--two,
+  .gallery-item--one {
+    grid-column: span 1;
+  }
+
+  .competencies {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -1332,8 +1551,15 @@ button {
 
 @media (max-width: 520px) {
   .disc-grid,
-  .apps-grid {
+  .apps-grid,
+  .gallery-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .founder__exp {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-1);
   }
 
   .footer__nav {

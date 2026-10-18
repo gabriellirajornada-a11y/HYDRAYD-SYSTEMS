@@ -217,33 +217,67 @@
 
   /* ---------------------------------------------------------------------
      6. Contact call to action — only rendered with a verified destination
+     Both the email and the LinkedIn profile come from config.js, so the
+     contact details are never duplicated across the three HTML shells.
      --------------------------------------------------------------------- */
+  function makeButton(opts) {
+    var link = doc.createElement("a");
+    link.className = "btn " + opts.cls;
+    link.href = opts.href;
+    if (opts.external) {
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    }
+    var text = doc.createElement("span");
+    text.setAttribute("data-i18n", opts.i18n);
+    text.textContent = window.hydraydT(lang, opts.i18n);
+    link.appendChild(text);
+    var arrow = doc.createElement("span");
+    arrow.className = "btn__arrow";
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.textContent = "\u2192";
+    link.appendChild(arrow);
+    return link;
+  }
+
   function initContact() {
     var mount = doc.querySelector("[data-contact-mount]");
     if (!mount) return;
 
     var config = window.HYDRAYD_CONFIG || {};
-    var email = config.contact && config.contact.email;
+    var contact = config.contact || {};
+    var hasAny = false;
 
-    if (email) {
-      var link = doc.createElement("a");
-      link.className = "btn btn--cyan";
-      link.href =
-        "mailto:" +
-        email +
-        "?subject=" +
-        encodeURIComponent(window.hydraydT(lang, "contact.title"));
-      var text = doc.createElement("span");
-      text.setAttribute("data-i18n", "contact.cta");
-      text.textContent = window.hydraydT(lang, "contact.cta");
-      var arrow = doc.createElement("span");
-      arrow.className = "btn__arrow";
-      arrow.setAttribute("aria-hidden", "true");
-      arrow.textContent = "\u2192";
-      link.appendChild(text);
-      link.appendChild(arrow);
-      mount.appendChild(link);
-    } else {
+    if (contact.email) {
+      mount.appendChild(
+        makeButton({
+          cls: "btn--cyan",
+          i18n: "contact.cta",
+          href:
+            "mailto:" +
+            contact.email +
+            "?subject=" +
+            encodeURIComponent(window.hydraydT(lang, "contact.title"))
+        })
+      );
+      hasAny = true;
+    }
+
+    if (contact.linkedin) {
+      // The contact card sits on a dark surface, so the light outline variant
+      // is used; btn--outline-dark would be invisible against it.
+      mount.appendChild(
+        makeButton({
+          cls: "btn--outline-light",
+          i18n: "contact.cta.linkedin",
+          href: contact.linkedin,
+          external: true
+        })
+      );
+      hasAny = true;
+    }
+
+    if (!hasAny) {
       var pending = doc.createElement("p");
       pending.className = "contact__pending";
       pending.setAttribute("data-i18n", "contact.pending");
@@ -251,6 +285,18 @@
       pending.setAttribute("role", "note");
       mount.appendChild(pending);
     }
+  }
+
+  /* ---------------------------------------------------------------------
+     6b. Founder LinkedIn link — filled from config.js when present.
+     The shells carry the same verified URL as a no-JS fallback.
+     --------------------------------------------------------------------- */
+  function initFounderLinks() {
+    var config = window.HYDRAYD_CONFIG || {};
+    var url = config.contact && config.contact.linkedin;
+    if (!url) return;
+    var links = doc.querySelectorAll("[data-linkedin-link]");
+    for (var i = 0; i < links.length; i++) links[i].href = url;
   }
 
   /* ---------------------------------------------------------------------
@@ -272,6 +318,7 @@
     initHeader();
     initActiveNav();
     initReveal();
+    initFounderLinks();
     initContact();
     initYear();
   }
