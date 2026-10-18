@@ -1,0 +1,7 @@
+# Windows / editor artifacts
+Thumbs.db
+desktop.ini
+*.log
+
+# macOS
+.DS_Store
